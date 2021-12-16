@@ -6,6 +6,13 @@
   "description": "博客专属图标设计",
   "glyphs": [
     {
+      "icon_id": "7712657",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e72a",
+      "unicode_decimal": 59178
+    },
+    {
       "icon_id": "834361",
       "name": "QQ",
       "font_class": "qq",

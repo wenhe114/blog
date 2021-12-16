@@ -66,20 +66,21 @@ export default {
 
   proxy: {
     '/blogApi': {
-      target: 'http://127.0.0.1:7001',
+      target: 'http://101.42.234.72:7001',
       pathRewrite: {
         '^/blogApi': '',
         changeOrigin: true
       }
     },
     '/public/upload': {
-      target: 'http://127.0.0.1:7001',
+      target: 'http://101.42.234.72:7001',
     }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
   server: {
-    port: 8000
+    port: 80,
+    host: '0.0.0.0',
   }
 }

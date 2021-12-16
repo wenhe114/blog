@@ -69,22 +69,22 @@ export default {
   },
   created() {},
   mounted() {
-    request.get("/menu/list").then((res) => {
-      console.log(res);
-      if (res.status === 1) {
-        this.$store.dispatch("common/menuActions", res.data);
-        const i = res.data.findIndex((item) => {
-          if (item.children && item.children.length > 0) {
-            return (
-              item.children.findIndex((it) => {
-                return it.id == this.$route.query.id;
-              }) != -1
-            );
-          }
-        });
-        this.currentIndex = i;
-      }
-    });
+    // request.get("/menu/list").then((res) => {
+    //   console.log(res);
+    //   if (res.status === 1) {
+    //     this.$store.dispatch("common/menuActions", res.data);
+    //     const i = res.data.findIndex((item) => {
+    //       if (item.children && item.children.length > 0) {
+    //         return (
+    //           item.children.findIndex((it) => {
+    //             return it.id == this.$route.query.id;
+    //           }) != -1
+    //         );
+    //       }
+    //     });
+    //     this.currentIndex = i;
+    //   }
+    // });
   },
   methods: {
     toRoute(id, type, path, index) {
@@ -134,7 +134,6 @@ export default {
           if (item.children && item.children.length > 0) {
             return (
               item.children.findIndex((it) => {
-                console.log(it.id, this.id);
                 return it.id == this.id;
               }) != -1
             );

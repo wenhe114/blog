@@ -1,41 +1,44 @@
 <template>
   <div class="content-list-wrap">
     <div class="content-left">
-      <template v-if="contentList.length>0">
+      <template v-if="contentList.length > 0">
         <div class="content-item" v-for="item in contentList" :key="item.id">
-        <span class="content-img" @click="toDetail(item.id)">
-          <img class="img" :src="item.img" />
-        </span>
-        <div class="content-base-box">
-          <h2 class="content-name-box" @click="toDetail(item.id)">
-            <p class="content-title" :title="item.name">
-              <span class="content-type">{{ item.tag }}</span>
-              {{ item.name }}
+          <span class="content-img" @click="toDetail(item.id)">
+            <img class="img" :src="item.img" />
+          </span>
+          <div class="content-base-box">
+            <h2 class="content-name-box" @click="toDetail(item.id)">
+              <p class="content-title" :title="item.name">
+                <span class="content-type">{{ item.tag }}</span>
+                {{ item.name }}
+              </p>
+            </h2>
+            <p class="c-intro">
+              {{ item.intro }}
             </p>
-          </h2>
-          <p class="c-intro">
-            {{ item.intro }}
-          </p>
-          <div class="c-f-num">
-            <span><i class="icon-time iconfont"></i>{{ item.created_at }}</span>
-            <span><i class="icon-huoyan iconfont"></i>{{ item.read_num }}</span>
-            <span
-              ><i class="icon-dianzan iconfont"></i>{{ item.praise_num }}</span
-            >
-            <span
-              ><i class="icon-xiaoxi iconfont"></i>{{ item.remark_num }}</span
-            >
-            <span class="to-detail" @click="toDetail(item.id)"
-              >阅读全文 >></span
-            >
+            <div class="c-f-num">
+              <span
+                ><i class="icon-time iconfont"></i>{{ item.created_at }}</span
+              >
+              <span
+                ><i class="icon-huoyan iconfont"></i>{{ item.read_num }}</span
+              >
+              <span
+                ><i class="icon-dianzan iconfont"></i
+                >{{ item.praise_num }}</span
+              >
+              <span
+                ><i class="icon-xiaoxi iconfont"></i>{{ item.remark_num }}</span
+              >
+              <span class="to-detail" @click="toDetail(item.id)"
+                >阅读全文 >></span
+              >
+            </div>
           </div>
         </div>
-      </div>
       </template>
       <template v-else>
-        <div class="empty-box">
-          啊哦，暂无数据~
-        </div>
+        <div class="empty-box">啊哦，暂无数据~</div>
       </template>
     </div>
     <div class="content-right">
@@ -46,6 +49,7 @@
 
 <script>
 import request from "@/service/index";
+import { setStore, getContentList } from "@/static/untils/setStore";
 export default {
   head() {
     return {
@@ -54,17 +58,27 @@ export default {
         {
           hid: "description",
           name: "description",
-          content:this.currentTitle,
+          content: this.currentTitle,
         },
         {
           hid: "keywords",
           name: "keywords",
-          content:this.currentTitle,
+          content: this.currentTitle,
         },
       ],
     };
   },
-
+  async asyncData(context) {
+    await setStore(context);
+    let params = {
+      currentPage: 1,
+      pageSize: 15,
+    };
+    const data = await getContentList(context, params);
+    return {
+      contentList: data.list,
+    };
+  },
   data() {
     return {
       params: {
@@ -73,7 +87,7 @@ export default {
       },
       contentList: [],
       currentTitle: "文和博客-专注前端开发-技术学习-记录问题",
-      id:this.$route.query.id
+      id: this.$route.query.id,
     };
   },
   mounted() {
@@ -86,8 +100,8 @@ export default {
         pageSize: 15,
       };
       this.$nextTick(async () => {
-        await this.getData();
-        this.setTitle()
+        // await this.getData();
+        this.setTitle();
       });
     },
     getData() {
@@ -152,13 +166,13 @@ export default {
     $route: {
       handler: function (val, oldVal) {
         this.params.id = val.query.id;
-        
+
         (this.params.name = this.$route.query.name
           ? this.$route.query.name
           : ""),
           this.$nextTick(async () => {
             await this.getData();
-            this.setTitle()
+            this.setTitle();
           });
       },
       // 深度观察监听
@@ -259,7 +273,7 @@ export default {
         }
       }
     }
-    .empty-box{
+    .empty-box {
       display: flex;
       width: 100%;
       height: 100%;

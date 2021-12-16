@@ -45,6 +45,7 @@
 
 <script>
 import request from "@/service/index";
+import {setStore} from "@/static/untils/setStore"
 export default {
   data() {
     return {
@@ -71,6 +72,7 @@ export default {
     };
   },
   async asyncData(context) {
+    await setStore(context)
     const content_id = context.route.query.content_id;
     const data = await context.$axios.get(
       "/blogApi/content/detail/" + content_id
