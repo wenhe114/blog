@@ -11,22 +11,22 @@
         <div class="md-head-wrap">
           <div class="content-title">{{ content.name }}</div>
           <div class="c-f-num">
-            <span
-              ><i class="icon-yonghu iconfont"></i>{{ content.author }}</span
+            <div
+              ><span class="icon-yonghu iconfont"></span><span>{{ content.author }}</span></div
             >
-            <span
-              ><i class="icon-time iconfont"></i>{{ content.created_at }}</span
+            <div
+              ><span class="icon-time iconfont"></span><span>{{ content.created_at }}</span></div
             >
-            <span
-              ><i class="icon-huoyan iconfont"></i>{{ content.read_num }}</span
+            <div
+              ><span class="icon-huoyan iconfont"></span><span>{{ content.read_num }}</span></div
             >
-            <span @click="praiseNumClick"
-              ><i class="icon-dianzan iconfont"></i
-              >{{ content.praise_num }}</span
+            <div @click="praiseNumClick"
+              ><span class="icon-dianzan iconfont"></span
+              ><span>{{ content.praise_num }}</span></div
             >
-            <span
-              ><i class="icon-xiaoxi iconfont"></i
-              >{{ content.remark_num }}</span
+            <div
+              ><span class="icon-xiaoxi iconfont"></span
+              ><span>{{ content.remark_num }}</span></div
             >
           </div>
         </div>
@@ -34,6 +34,7 @@
           v-model="content.content_md"
           height="auto"
           mode="preview"
+          @copy-code-success="handleCopyCodeSuccess"
         ></v-md-editor>
       </div>
       <div class="c-d-right">
@@ -160,6 +161,10 @@ export default {
         console.log(res);
       });
     },
+    handleCopyCodeSuccess(code){
+      console.log(code);
+      this.$message.success("复制成功")
+    }
   },
 };
 </script>
@@ -207,6 +212,12 @@ export default {
       .c-f-num {
         padding-bottom: 10px;
         border-bottom: 2px solid @theme-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >div{
+          margin-right: 15px;
+        }
         > span {
           margin-left: 30px;
         }
