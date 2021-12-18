@@ -85,7 +85,8 @@ export default {
 
   proxy: {
     '/blogApi': {
-      target: isDev?"http://"+getIpAddress()+":7001":"http://linshipeng:7001",
+      target: isDev?"http://"+getIpAddress()+":7001":"http://101.42.234.72:7001",
+      // target: "http://101.42.234.72:7001",
       pathRewrite: {
         '^/blogApi': '',
         changeOrigin: true
@@ -93,7 +94,8 @@ export default {
     },
     
     '/public/upload': {
-      target: isDev?"http://"+getIpAddress()+":7001":"http://linshipeng:7001",
+      target: isDev?"http://"+getIpAddress()+":7001":"http://101.42.234.72:7001",
+      // target: "http://101.42.234.72:7001",
     }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-buildhttp://101.42.234.72:7001
