@@ -48,18 +48,26 @@
                 ><i class="icon-xiaoxi iconfont"></i>{{ item.remark_num }}</span
               >
               <router-link
-              class="to-detail"
-              :to="{
-                path: '/content/detail',
-                query: {
-                  content_id: item.id,
-                },
-              }"
-            >
+                class="to-detail"
+                :to="{
+                  path: '/content/detail',
+                  query: {
+                    content_id: item.id,
+                  },
+                }"
+              >
                 阅读全文 >></router-link
               >
             </div>
           </div>
+        </div>
+        <div class="page-box" v-if="total / contentList.length > 1">
+          <a-pagination
+            :default-current="params.currentPage"
+            :defaultPageSize="params.pageSize"
+            :total="total"
+            @change="pageChange"
+          />
         </div>
       </template>
       <template v-else>
@@ -74,7 +82,8 @@
 
 <script>
 import request from "@/service/index";
-import { getContentList, setStore } from "@/static/untils/setStore";
+import { setStore } from "@/static/untils/setStore";
+import { contentListApi } from "@/static/untils/ssrApi";
 export default {
   head() {
     return {
@@ -125,10 +134,13 @@ export default {
       id: context.route.query.id,
       name: context.route.query.name ? context.route.query.name : "",
     };
-    const data = await getContentList(context, params);
+    const api = contentListApi(context);
+    const data = await api.getContentList(params);
     return {
       contentList: data.list,
       currentTitle: setTitle(),
+      params: params,
+      total: data.page.total,
     };
   },
   data() {
@@ -141,24 +153,26 @@ export default {
       },
       contentList: [],
       currentTitle: "",
+      total: 0,
     };
   },
   mounted() {
-    this.init();
+    // this.init();
+    console.log(this.contentList);
   },
   methods: {
-    init() {
-      this.params = {
-        currentPage: 1,
-        pageSize: 15,
-        id: this.$route.query.id,
-        name: this.$route.query.name ? this.$route.query.name : "",
-      };
-      this.$nextTick(async () => {
-        // await this.getData();
-        this.setTitle();
-      });
-    },
+    // init() {
+    //   this.params = {
+    //     currentPage: 1,
+    //     pageSize: 15,
+    //     id: this.$route.query.id,
+    //     name: this.$route.query.name ? this.$route.query.name : "",
+    //   };
+    //   this.$nextTick(async () => {
+    //     // await this.getData();
+    //     this.setTitle();
+    //   });
+    // },
     getData() {
       if (!process.server) {
         this.$nuxt.$loading.start();
@@ -174,8 +188,13 @@ export default {
             // console.log(res);
             if (res.status === 1) {
               this.contentList = res.data.list;
+              this.params.pageSize = res.data.page.pageSize;
+              this.params.currentPage = res.data.page.currentPage;
+              this.total = res.data.page.total;
+              document.body.scrollTop = 0;
               if (!process.server) {
                 this.$nuxt.$loading.finish();
+                this.goTop();
               }
             }
 
@@ -185,6 +204,11 @@ export default {
             reject(err);
           });
       });
+    },
+    pageChange(currentPage, pageSize) {
+      this.params.currentPage = currentPage;
+      this.params.pageSize = pageSize;
+      this.getData();
     },
     toDetail(id) {
       this.$router.push({
@@ -216,6 +240,17 @@ export default {
         }
       });
     },
+    // 回到底部
+    goTop() {
+      let scrollToTop = window.setInterval(() => {
+        let Top = document.documentElement.scrollTop || document.body.scrollTop;
+        if (Top > 0) {
+          window.scrollTo(0, Top - 80);
+        } else {
+          window.clearInterval(scrollToTop);
+        }
+      }, 10);
+    },
   },
   watch: {
     $route: {
@@ -226,27 +261,70 @@ export default {
           ? this.$route.query.name
           : ""),
           this.$nextTick(async () => {
-            await this.getData();
-            this.setTitle();
+            if (!process.server) {
+              await this.getData();
+              this.setTitle();
+            }
           });
       },
       // 深度观察监听
       deep: true,
-      immediate: true,
     },
   },
 };
 </script>
 
 <style lang="less">
+@media screen and (min-width: 900px) {
+  .content-list-wrap {
+    .content-item {
+      height: 181px;
+      .content-img{
+        width: 230px;
+      }
+      .content-base-box {
+        min-width: 0;
+        height: 100%;
+        .c-intro{
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .content-list-wrap {
+    .content-item {
+      height: 333px;
+      flex-wrap: wrap;
+      .content-img{
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .content-base-box {
+        min-width: none;
+        // height: 100%;
+        .c-intro{
+          margin-top: 0;
+        }
+        .to-detail{
+          display: none;
+        }
+      }
+    }
+  }
+}
 .content-list-wrap {
   width: 100%;
   overflow: hidden;
-  padding: 15px 0;
+  // padding: 15px 0;
   min-height: 850px;
   display: flex;
   flex-direction: row;
-
+  .page-box {
+    text-align: center;
+    margin: 20px auto;
+  }
   .content-left {
     flex: 1;
     background-color: @white-color;
@@ -261,10 +339,10 @@ export default {
       padding: 15px;
       border-bottom: 1px solid #c8c8c8;
       display: flex;
-      height: 181px;
+
       // overflow: hidden;
       .content-img {
-        width: 230px;
+        // width: 230px;
         height: 150px;
         flex-shrink: 0;
         cursor: pointer;
@@ -277,11 +355,9 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
-        height: 100%;
+        
         width: 100%;
-        min-width: 0;
         .c-intro {
-          margin-top: 15px;
           color: #aaa;
           line-height: 24px;
           display: -webkit-box; /**对象作为伸缩盒子模型展示**/
@@ -341,7 +417,6 @@ export default {
     width: 300px;
     min-height: 600px;
     margin-left: 15px;
-    padding: 0px 15px;
     // background: @white-color;
     flex-shrink: 0;
   }

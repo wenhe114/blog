@@ -47,6 +47,7 @@
 <script>
 import request from "@/service/index";
 import {setStore} from "@/static/untils/setStore"
+import {detailApi} from "@/static/untils/ssrApi"
 export default {
   data() {
     return {
@@ -75,17 +76,12 @@ export default {
   async asyncData(context) {
     await setStore(context)
     const content_id = context.route.query.content_id;
-    const data = await context.$axios.get(
-      "/blogApi/content/detail/" + content_id
-    );
-    if (data.status === 200 && data.data.status === 1) {
-      return {
-        content: data.data.data,
-      };
-    } else {
-      return {
-        content: {},
-      };
+    const api=detailApi(context)
+    const data=await api.getContentDetail(content_id)
+    data.read_num++
+    await api.updateReadNum(data.id,data.read_num)
+    return {
+      content: data,
     }
   },
   computed: {
@@ -117,14 +113,7 @@ export default {
     },
   },
   mounted() {
-    const content_id = this.$route.query.content_id;
-    request.get("/content/detail/" + content_id).then((res) => {
-      console.log(res);
-      if (res.status === 1) {
-        this.content = res.data;
-        this.updateReadNum();
-      }
-    });
+
   },
   methods: {
     toList(id) {
@@ -135,16 +124,16 @@ export default {
         },
       });
     },
-    updateReadNum() {
-      this.content.read_num += 1;
-      let params = {
-        id: this.content.id,
-        read_num: this.content.read_num,
-      };
-      request.put("/content/update/readNum", params).then((res) => {
-        console.log(res);
-      });
-    },
+    // updateReadNum() {
+    //   this.content.read_num += 1;
+    //   let params = {
+    //     id: this.content.id,
+    //     read_num: this.content.read_num,
+    //   };
+    //   request.put("/content/update/readNum", params).then((res) => {
+    //     console.log(res);
+    //   });
+    // },
     praiseNumClick() {
       this.isClick = !this.isClick;
       if (this.isClick) {

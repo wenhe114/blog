@@ -18,17 +18,6 @@ export async function getContentList(context, params) {
     return data
 }
 
-// 获取文章详情
-export async function getContentDetailData(context) {
-    if (context.route.query.content_id) {
-        const contentData = await context.$axios.get(BASE_URL + "/content/detail" + "/" + context.route.query.content_id)
-        const data = responseData(contentData)
-        return data
-    } else {
-        return {}
-    }
-
-}
 export function responseData(data) {
     if (!data) {
         throw new Error('Invalid Request.')

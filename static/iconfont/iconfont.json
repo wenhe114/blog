@@ -6,6 +6,27 @@
   "description": "博客专属图标设计",
   "glyphs": [
     {
+      "icon_id": "629357",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "13253855",
+      "name": "linux",
+      "font_class": "linux",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "16852596",
+      "name": "eCharts",
+      "font_class": "eCharts",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
       "icon_id": "7712657",
       "name": "edit",
       "font_class": "edit",

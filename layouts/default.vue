@@ -5,44 +5,72 @@
     <div class="content-main">
       <nuxt />
     </div>
-    <layout-footer class="footer"/>
+    <layout-footer class="footer" />
     <a-back-top>
       <div class="back-top">
-       <span class="iconfont icon-dingbu"></span>
+        <span class="iconfont icon-dingbu"></span>
       </div>
     </a-back-top>
   </div>
 </template>
 
 <script>
-import request from "@/service/index"
+import request from "@/service/index";
 export default {
-  data(){
-    return{}
+  data() {
+    return {};
   },
-  mounted(){
-    this.getAboutInfo()
+  mounted() {
+    this.getAboutInfo();
   },
-  methods:{
-    getAboutInfo(){
-      request.get("/about").then((res)=>{
-        this.$store.dispatch("common/aboutInfoActions",res.data)
-      })
-    }
-  }
-}
+  methods: {
+    getAboutInfo() {
+      request.get("/about").then((res) => {
+        this.$store.dispatch("common/aboutInfoActions", res.data);
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less">
-.content-main{
-  width: 1200px;
-  margin: 0 auto;
+@media screen and (min-width:950px) {
+  .content-main {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .blog-top-wrap {
+    width: 100%;
+  }
+  .blog-top {
+    width: 95%;
+  }
 }
-.footer{
+
+
+@media screen and (max-width: 950px) {
+  .content-main {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .blog-top-wrap {
+    width: 100%;
+  }
+  .blog-top {
+    width: 90%;
+  }
+  
+  .c-d-right,
+  .content-right {
+    display: none;
+  }
+
+}
+.footer {
   width: 100%;
   margin: 0 auto;
 }
-.back-top{
+.back-top {
   background: @theme-color;
   width: 40px;
   height: 40px;
@@ -51,7 +79,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: @white-color;
-  >span{
+  > span {
     font-size: 30px;
   }
 }

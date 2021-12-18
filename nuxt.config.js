@@ -1,4 +1,23 @@
+const isDev=process.env.ENV==='dev'?true:false
+const os = require('os');
+//获取本机ip
+function getIpAddress() {
+  /**os.networkInterfaces() 返回一个对象，该对象包含已分配了网络地址的网络接口 */
+var interfaces = os.networkInterfaces();
+ for (var devName in interfaces) {
+   var iface = interfaces[devName];
+    for (var i = 0; i < iface.length; i++) {
+           var alias = iface[i];
+             if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+               return alias.address;
+             }
+       }
+  }
+}
 export default {
+  env: {
+    baseUrl: process.env.BASE_URL
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'blog',
@@ -17,7 +36,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  loading:'~/components/loading.vue',
+  loading: '~/components/loading.vue',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "~/css/theme.less",
@@ -66,17 +85,18 @@ export default {
 
   proxy: {
     '/blogApi': {
-      target: 'http://101.42.234.72:7001',
+      target: isDev?"http://"+getIpAddress()+":7001":"http://linshipeng:7001",
       pathRewrite: {
         '^/blogApi': '',
         changeOrigin: true
       }
     },
+    
     '/public/upload': {
-      target: 'http://101.42.234.72:7001',
+      target: isDev?"http://"+getIpAddress()+":7001":"http://linshipeng:7001",
     }
   },
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  // Build Configuration: https://go.nuxtjs.dev/config-buildhttp://101.42.234.72:7001
   build: {
   },
   server: {

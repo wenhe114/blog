@@ -286,7 +286,6 @@ export default {
     width: 300px;
     min-height: 600px;
     margin-left: 15px;
-    padding: 0px 15px;
     // background: @white-color;
     flex-shrink: 0;
   }
