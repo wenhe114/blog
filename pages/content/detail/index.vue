@@ -31,10 +31,12 @@
           </div>
         </div>
         <v-md-editor
+        class="detail-md"
           v-model="content.content_md"
           height="auto"
           mode="preview"
           @copy-code-success="handleCopyCodeSuccess"
+          ref="previewMd"
         ></v-md-editor>
       </div>
       <div class="c-d-right">
@@ -48,6 +50,7 @@
 import request from "@/service/index";
 import {setStore} from "@/static/untils/setStore"
 import {detailApi} from "@/static/untils/ssrApi"
+import {showImg} from "@/static/untils/imgView"
 export default {
   data() {
     return {
@@ -113,7 +116,22 @@ export default {
     },
   },
   mounted() {
-
+    let imgs=this.$refs.previewMd.$el.querySelectorAll("img")
+    console.log(imgs);
+    imgs.forEach(element => {
+      console.log(element);
+      element.onclick=function(e){
+        console.log(e);
+        console.log(e.target.src);
+        showImg(e.target.src)
+        /*创建图片，并且设置属性*/
+//  var oImgBox = document.createElement("img");
+//  oImgBox.setAttribute("id", "imgBox");
+//  oImgBox.setAttribute("src", e.target.src);
+//  oImgBox.setAttribute("alt", "图片一");
+        // document.body.append(oImgBox)
+      }
+    });
   },
   methods: {
     toList(id) {
@@ -212,6 +230,11 @@ export default {
         }
       }
     }
+  }
+}
+.detail-md{
+  img{
+    cursor: zoom-in;
   }
 }
 </style>
