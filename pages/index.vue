@@ -1,45 +1,7 @@
 <template>
   <div class="content-list-wrap">
     <div class="content-left">
-      <template v-if="contentList.length > 0">
-        <div class="content-item" v-for="item in contentList" :key="item.id">
-          <span class="content-img" @click="toDetail(item.id)">
-            <img class="img" :src="item.img" />
-          </span>
-          <div class="content-base-box">
-            <h2 class="content-name-box" @click="toDetail(item.id)">
-              <p class="content-title" :title="item.name">
-                <span class="content-type">{{ item.tag }}</span>
-                {{ item.name }}
-              </p>
-            </h2>
-            <p class="c-intro">
-              {{ item.intro }}
-            </p>
-            <div class="c-f-num">
-              <span
-                ><i class="icon-time iconfont"></i>{{ item.created_at }}</span
-              >
-              <span
-                ><i class="icon-huoyan iconfont"></i>{{ item.read_num }}</span
-              >
-              <span
-                ><i class="icon-dianzan iconfont"></i
-                >{{ item.praise_num }}</span
-              >
-              <span
-                ><i class="icon-xiaoxi iconfont"></i>{{ item.remark_num }}</span
-              >
-              <span class="to-detail" @click="toDetail(item.id)"
-                >阅读全文 >></span
-              >
-            </div>
-          </div>
-        </div>
-      </template>
-      <template v-else>
-        <div class="empty-box">啊哦，暂无数据~</div>
-      </template>
+      
     </div>
     <div class="content-right">
       <layout-right :id="id"></layout-right>
@@ -70,14 +32,7 @@ export default {
   },
   async asyncData(context) {
     await setStore(context);
-    let params = {
-      currentPage: 1,
-      pageSize: 15,
-    };
-    const data = await getContentList(context, params);
-    return {
-      contentList: data.list,
-    };
+   
   },
   data() {
     return {
@@ -99,68 +54,11 @@ export default {
         currentPage: 1,
         pageSize: 15,
       };
-      this.$nextTick(async () => {
-        // await this.getData();
-        this.setTitle();
-      });
-    },
-    getData() {
-      if (!process.server) {
-        this.$nuxt.$loading.start();
-      }
 
-      this.contentList = [];
-      return new Promise((resolve, reject) => {
-        request
-          .get("/contents/list", {
-            params: { ...this.params },
-          })
-          .then((res) => {
-            // console.log(res);
-            if (res.status === 1) {
-              this.contentList = res.data.list;
-              if (!process.server) {
-                this.$nuxt.$loading.finish();
-              }
-            }
-
-            resolve(res);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
     },
-    toDetail(id) {
-      this.$router.push({
-        path: "/content/detail",
-        query: {
-          content_id: id,
-        },
-      });
-    },
-    setTitle() {
-      if (!this.params.id) {
-        return;
-      }
-      this.$store.state.common.menu.findIndex((item) => {
-        if (item.children && item.children.length > 0) {
-          return (
-            item.children.findIndex((it) => {
-              if (it.id == this.params.id) {
-                this.currentTitle = it.meun_title;
-              }
-              return it.id == this.params.id;
-            }) != -1
-          );
-        } else {
-          if (item.id == this.params.id) {
-            this.currentTitle = item.meun_title;
-          }
-          return item.id == this.params.id;
-        }
-      });
-    },
+    
+  
+   
   },
   watch: {
     $route: {
@@ -169,11 +67,7 @@ export default {
 
         (this.params.name = this.$route.query.name
           ? this.$route.query.name
-          : ""),
-          this.$nextTick(async () => {
-            await this.getData();
-            this.setTitle();
-          });
+          : "")
       },
       // 深度观察监听
       deep: true,
