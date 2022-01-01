@@ -1,12 +1,14 @@
 const BASE_URL = "/blogApi"
 export async function setStore(context) {
-    const menuData = await context.$axios.get(BASE_URL + "/menu/list")
-    const menu = responseData(menuData)
-    context.store.dispatch("common/menuActions", menu);
-    const aboutData = await context.$axios.get(BASE_URL + "/about")
-    const about = responseData(aboutData)
-    context.store.dispatch("common/aboutInfoActions", about)
-    // return;
+    const menuData = context.$axios.get(BASE_URL + "/menu/list")
+    const aboutData = context.$axios.get(BASE_URL + "/about")
+    context.store.dispatch("common/menuActions", {name:"121212"});
+    await  Promise.all([menuData, aboutData]).then(res => {
+        const menu = responseData(res[0])
+        context.store.dispatch("common/menuActions", menu);
+        const about = responseData(res[1])
+        context.store.dispatch("common/aboutInfoActions", about)
+    })
 }
 
 // 获取文章列表

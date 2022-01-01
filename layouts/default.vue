@@ -1,6 +1,6 @@
 <template>
   <div>
-    <layout-top />
+    <layout-top  ref="top"/>
     <div style="height: 70px"></div>
     <div class="content-main">
       <nuxt />

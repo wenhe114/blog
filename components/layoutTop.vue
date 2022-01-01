@@ -165,6 +165,7 @@ export default {
   watch: {
     $route: {
       handler: function (val, oldVal) {
+        this.closeMask()
         this.id = val.query.id;
         const i = this.$store.state.common.menu.findIndex((item) => {
           if (item.children && item.children.length > 0) {
@@ -179,7 +180,7 @@ export default {
       },
       // 深度观察监听
       deep: true,
-      immediate: true,
+      // immediate: true,
     },
   },
 };
