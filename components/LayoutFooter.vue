@@ -11,13 +11,44 @@
     </div>
 
     <div class="w-100">
-      <a href="https://beian.miit.gov.cn/">{{ aboutInfo.beian_num }}</a>
+      <a href="https://beian.miit.gov.cn/">{{
+        aboutInfo.beian_num ? aboutInfo.beian_num : "陇ICP备2021003774号"
+      }}</a>
+      
+        <a
+          target="_blank"
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=62102502000131"
+          style="
+            display: inline-block;
+            text-decoration: none;
+            height: 20px;
+            line-height: 20px;
+          "
+          >
+          <span><img :src="gonganICon" /></span>
+          <i
+            style="
+              height: 20px;
+              line-height: 20px;
+              margin: 0px 0px 0px 5px;
+              color: #939393;
+            "
+          >
+            甘公网安备 62102502000131号
+          </i></a
+        >
     </div>
   </div>
 </template>
 
 <script>
+import gonganICon from "@/static/image/gongan.png"
 export default {
+  data(){
+    return{
+      gonganICon
+    }
+  },
   computed: {
     aboutInfo: {
       get() {
@@ -37,8 +68,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  .w-100
-  {
+  .w-100 {
     width: 100%;
     text-align: center;
   }
