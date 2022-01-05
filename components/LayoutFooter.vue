@@ -6,7 +6,7 @@
       <span>
         <a title="github" :href="aboutInfo.github"
           ><i class="icon-github iconfont"></i
-        ></a>
+        >文和gitHub仓库</a>
       </span>
     </div>
 

@@ -1,9 +1,7 @@
 import request  from "../service/index"
 
 const state=()=>({
-    menu:[{
-        name:"wnehe"
-    }],
+    menu:[],
     contentList:[],
     aboutInfo:{}
 })

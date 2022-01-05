@@ -264,7 +264,8 @@ export default {
       if (!this.params.id) {
         return;
       }
-      this.$store.state.common.menu.findIndex((item) => {
+      if (this.$store.state.common.menu&&this.$store.state.common.menu.length>0) {
+        this.$store.state.common.menu.findIndex((item) => {
         if (item.children && item.children.length > 0) {
           return (
             item.children.findIndex((it) => {
@@ -281,6 +282,8 @@ export default {
           return item.id == this.params.id;
         }
       });
+      }
+      
     },
     // 回到底部
     goTop() {

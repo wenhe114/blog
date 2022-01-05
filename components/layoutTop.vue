@@ -186,16 +186,18 @@ export default {
       handler: function (val, oldVal) {
         this.closeMask();
         this.id = val.query.id;
-        const i = this.$store.state.common.menu.findIndex((item) => {
-          if (item.children && item.children.length > 0) {
-            return (
-              item.children.findIndex((it) => {
-                return it.id == this.id;
-              }) != -1
-            );
-          }
-        });
-        this.currentIndex = i;
+        if (this.$store.state.common.menu&&this.$store.state.common.menu.length > 0) {
+          const i = this.$store.state.common.menu.findIndex((item) => {
+            if (item.children && item.children.length > 0) {
+              return (
+                item.children.findIndex((it) => {
+                  return it.id == this.id;
+                }) != -1
+              );
+            }
+          });
+          this.currentIndex = i;
+        }
       },
       // 深度观察监听
       deep: true,
