@@ -11,27 +11,30 @@
         <div class="md-head-wrap">
           <div class="content-title">{{ content.name }}</div>
           <div class="c-f-num">
-            <div
-              ><span class="icon-yonghu iconfont"></span><span>{{ content.author }}</span></div
-            >
-            <div
-              ><span class="icon-time iconfont"></span><span>{{ content.created_at }}</span></div
-            >
-            <div
-              ><span class="icon-huoyan iconfont"></span><span>{{ content.read_num }}</span></div
-            >
-            <div @click="praiseNumClick"
-              ><span class="icon-dianzan iconfont"></span
-              ><span>{{ content.praise_num }}</span></div
-            >
-            <div
-              ><span class="icon-xiaoxi iconfont"></span
-              ><span>{{ content.remark_num }}</span></div
-            >
+            <div>
+              <span class="icon-yonghu iconfont"></span
+              ><span>{{ content.author }}</span>
+            </div>
+            <div>
+              <span class="icon-time iconfont"></span
+              ><span>{{ content.created_at }}</span>
+            </div>
+            <div>
+              <span class="icon-huoyan iconfont"></span
+              ><span>{{ content.read_num }}</span>
+            </div>
+            <div @click="praiseNumClick">
+              <span class="icon-dianzan iconfont"></span
+              ><span>{{ content.praise_num }}</span>
+            </div>
+            <div>
+              <span class="icon-xiaoxi iconfont"></span
+              ><span>{{ content.remark_num }}</span>
+            </div>
           </div>
         </div>
         <v-md-editor
-        class="detail-md"
+          class="detail-md"
           v-model="content.content_md"
           height="auto"
           mode="preview"
@@ -48,9 +51,9 @@
 
 <script>
 import request from "@/service/index";
-import {setStore} from "@/static/untils/setStore"
-import {detailApi} from "@/static/untils/ssrApi"
-import {showImg} from "@/static/untils/imgView"
+import { setStore } from "@/static/untils/setStore";
+import { detailApi } from "@/static/untils/ssrApi";
+import { showImg } from "@/static/untils/imgView";
 export default {
   data() {
     return {
@@ -77,15 +80,15 @@ export default {
     };
   },
   async asyncData(context) {
-    await setStore(context)
+    await setStore(context);
     const content_id = context.route.query.content_id;
-    const api=detailApi(context)
-    const data=await api.getContentDetail(content_id)
-    data.read_num++
-    await api.updateReadNum(data.id,data.read_num)
+    const api = detailApi(context);
+    const data = await api.getContentDetail(content_id);
+    data.read_num++;
+    await api.updateReadNum(data.id, data.read_num);
     return {
       content: data,
-    }
+    };
   },
   computed: {
     type: {
@@ -116,21 +119,21 @@ export default {
     },
   },
   mounted() {
-    let imgs=this.$refs.previewMd.$el.querySelectorAll("img")
+    let imgs = this.$refs.previewMd.$el.querySelectorAll("img");
     console.log(imgs);
-    imgs.forEach(element => {
+    imgs.forEach((element) => {
       console.log(element);
-      element.onclick=function(e){
+      element.onclick = function (e) {
         console.log(e);
         console.log(e.target.src);
-        showImg(e.target.src)
+        showImg(e.target.src);
         /*创建图片，并且设置属性*/
-//  var oImgBox = document.createElement("img");
-//  oImgBox.setAttribute("id", "imgBox");
-//  oImgBox.setAttribute("src", e.target.src);
-//  oImgBox.setAttribute("alt", "图片一");
+        //  var oImgBox = document.createElement("img");
+        //  oImgBox.setAttribute("id", "imgBox");
+        //  oImgBox.setAttribute("src", e.target.src);
+        //  oImgBox.setAttribute("alt", "图片一");
         // document.body.append(oImgBox)
-      }
+      };
     });
   },
   methods: {
@@ -168,10 +171,10 @@ export default {
         console.log(res);
       });
     },
-    handleCopyCodeSuccess(code){
+    handleCopyCodeSuccess(code) {
       console.log(code);
-      this.$message.success("复制成功")
-    }
+      this.$message.success("复制成功");
+    },
   },
 };
 </script>
@@ -222,7 +225,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        >div{
+        > div {
           margin-right: 15px;
         }
         > span {
@@ -232,8 +235,8 @@ export default {
     }
   }
 }
-.detail-md{
-  img{
+.detail-md {
+  img {
     cursor: zoom-in;
   }
 }

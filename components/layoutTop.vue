@@ -1,7 +1,9 @@
 <template>
   <div class="blog-top-wrap">
     <div class="blog-top pc-nav">
-      <span class="logo" @click="toRoute(4, false, '/', 0)">文和博客</span>
+      <span class="logo">
+        <nuxt-link :to="{ path: '/' }">文和博客</nuxt-link>
+      </span>
       <ul class="nav-wrap" :class="isShowNva ? 'active' : ''">
         <li class="nav-item" v-for="(item, index) in menu" :key="index">
           <template v-if="item.children && item.children.length > 0">
@@ -20,22 +22,35 @@
                 :key="it.id"
                 :class="id == it.id ? 'nav-active' : ''"
               >
-                <div class="nav-title" @click="toRoute(it.id, true, '', index)">
+                <nuxt-link
+                  class="nav-title"
+                  :to="{
+                    path: '/content',
+                    query: {
+                      id: it.id,
+                    },
+                  }"
+                >
                   <span class="iconfont" :class="it.icon"></span>
                   {{ it.meun_title }}
-                </div>
+                </nuxt-link>
               </li>
             </ul>
           </template>
-          <div
+          <nuxt-link
             v-else
             class="nav-title"
-            @click="toRoute(item.id, false, item.url, index)"
+            :to="{
+              path: item.url,
+              query: {
+                id: item.id,
+              },
+            }"
             :class="id == item.id ? 'nav-active' : ''"
           >
             <span class="iconfont" :class="item.icon"></span>
             {{ item.meun_title }}
-          </div>
+          </nuxt-link>
         </li>
       </ul>
       <div class="blog-top-right">
@@ -68,7 +83,11 @@
           </div>
         </div>
       </div>
-      <span class="iconfont icon-menu open-menu-nav-btn" @click="isShowNva = true"> </span>
+      <span
+        class="iconfont icon-menu open-menu-nav-btn"
+        @click="isShowNva = true"
+      >
+      </span>
     </div>
     <div
       class="mask"
@@ -165,7 +184,7 @@ export default {
   watch: {
     $route: {
       handler: function (val, oldVal) {
-        this.closeMask()
+        this.closeMask();
         this.id = val.query.id;
         const i = this.$store.state.common.menu.findIndex((item) => {
           if (item.children && item.children.length > 0) {
@@ -280,7 +299,7 @@ export default {
   .layout-search-wrap {
     display: none;
   }
-  .open-menu-nav-btn{
+  .open-menu-nav-btn {
     display: none;
   }
 }
@@ -325,12 +344,12 @@ export default {
       cursor: pointer;
     }
   }
-  .open-menu-nav-btn{
+  .open-menu-nav-btn {
     display: none;
   }
 }
 @media screen and (max-width: 960px) {
-  .open-menu-nav-btn{
+  .open-menu-nav-btn {
     display: block;
   }
   .blog-top {
@@ -392,19 +411,19 @@ export default {
         transform: scale(1);
         height: 0;
         .children-nav-item {
-              transition: 0.5s;
-              padding: 0 10px;
-              .iconfont {
-                margin-right: 5px;
-              }
-              &:hover,
-              &.nav-active {
-                background: @theme-color;
-                padding-left: 20px;
-                color: #5d5d5d;
-                text-indent: 5;
-              }
-            }
+          transition: 0.5s;
+          padding: 0 10px;
+          .iconfont {
+            margin-right: 5px;
+          }
+          &:hover,
+          &.nav-active {
+            background: @theme-color;
+            padding-left: 20px;
+            color: #5d5d5d;
+            text-indent: 5;
+          }
+        }
       }
     }
     &.active {

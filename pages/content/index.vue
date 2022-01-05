@@ -63,10 +63,10 @@
         </div>
         <div class="page-box" v-if="total / contentList.length > 1">
           <a-pagination
-            :default-current="params.currentPage"
+            :default-current="Number(params.currentPage)"
             :defaultPageSize="params.pageSize"
             :total="total"
-            @change="pageChange"
+            :itemRender="itemRender"
           />
         </div>
       </template>
@@ -102,6 +102,7 @@ export default {
       ],
     };
   },
+  watchQuery: true,
   async asyncData(context) {
     function setTitle() {
       let currentTitle = "";
@@ -129,7 +130,9 @@ export default {
     }
     await setStore(context);
     let params = {
-      currentPage: 1,
+      currentPage: context.route.query.currentPage
+        ? context.route.query.currentPage
+        : 1,
       pageSize: 15,
       id: context.route.query.id,
       name: context.route.query.name ? context.route.query.name : "",
@@ -146,11 +149,17 @@ export default {
   data() {
     return {
       params: {
-        currentPage: 1,
+        currentPage: this.$route.query.currentPage
+          ? Number(this.$route.query.currentPage)
+          : 1,
         pageSize: 15,
-        id: this.$route.query.id,
-        name: this.$route.query.name ? this.$route.query.name : "",
       },
+      // params: {
+      //   currentPage: 1,
+      //   pageSize: 15,
+      //   id: this.$route.query.id,
+      //   name: this.$route.query.name ? this.$route.query.name : "",
+      // },
       contentList: [],
       currentTitle: "",
       total: 0,
@@ -173,42 +182,75 @@ export default {
     //     this.setTitle();
     //   });
     // },
-    getData() {
-      if (!process.server) {
-        this.$nuxt.$loading.start();
+    // getData() {
+    //   if (!process.server) {
+    //     this.$nuxt.$loading.start();
+    //   }
+
+    //   this.contentList = [];
+    //   return new Promise((resolve, reject) => {
+    //     request
+    //       .get("/contents/list", {
+    //         params: { ...this.params },
+    //       })
+    //       .then((res) => {
+    //         // console.log(res);
+    //         if (res.status === 1) {
+    //           this.contentList = res.data.list;
+    //           this.params.pageSize = res.data.page.pageSize;
+    //           this.params.currentPage = res.data.page.currentPage;
+    //           this.total = res.data.page.total;
+    //           document.body.scrollTop = 0;
+    //           if (!process.server) {
+    //             this.$nuxt.$loading.finish();
+    //             this.goTop();
+    //           }
+    //         }
+
+    //         resolve(res);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    //   });
+    // },
+    itemRender(current, type, originalElement) {
+      const pageTotal= Math.ceil(this.total/15)
+      const name = this.$route.query.name ? this.$route.query.name : "";
+      const id = this.$route.query.id ? this.$route.query.id : "";
+      const currentPage =this.params.currentPage ? Number(this.params.currentPage) : 1;
+      if (type === "page") {
+        return (
+          <a href={`/content/?currentPage=${current}&name=${name}&id=${id}`}>
+            {current}
+          </a>
+        );
+      } else if (type === "prev") {
+        return (
+          currentPage>1?
+          <a
+            class="ant-pagination-item itxst"
+            href={`/content/?currentPage=${currentPage - 1}&name=${name}&id=${id}`}
+          >
+            上一页
+          </a>:<a class="ant-pagination-item itxst">上一页</a>
+        );
+      } else if (type === "next") {
+        return (
+          currentPage<pageTotal?
+          <a
+            class="ant-pagination-item itxst"
+            href={`/content/?currentPage=${currentPage + 1}&name=${name}&id=${id}`}
+          >
+            下一页
+          </a>:<a class="ant-pagination-item itxst">下一页</a>
+        );
       }
-
-      this.contentList = [];
-      return new Promise((resolve, reject) => {
-        request
-          .get("/contents/list", {
-            params: { ...this.params },
-          })
-          .then((res) => {
-            // console.log(res);
-            if (res.status === 1) {
-              this.contentList = res.data.list;
-              this.params.pageSize = res.data.page.pageSize;
-              this.params.currentPage = res.data.page.currentPage;
-              this.total = res.data.page.total;
-              document.body.scrollTop = 0;
-              if (!process.server) {
-                this.$nuxt.$loading.finish();
-                this.goTop();
-              }
-            }
-
-            resolve(res);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
     },
     pageChange(currentPage, pageSize) {
-      this.params.currentPage = currentPage;
-      this.params.pageSize = pageSize;
-      this.getData();
+      // this.params.currentPage = currentPage;
+      // this.params.pageSize = pageSize;
+      // this.getData();
     },
     toDetail(id) {
       this.$router.push({
@@ -262,7 +304,6 @@ export default {
           : ""),
           this.$nextTick(async () => {
             if (!process.server) {
-              await this.getData();
               this.setTitle();
             }
           });
@@ -279,13 +320,13 @@ export default {
   .content-list-wrap {
     .content-item {
       height: 181px;
-      .content-img{
+      .content-img {
         width: 230px;
       }
       .content-base-box {
         min-width: 0;
         height: 100%;
-        .c-intro{
+        .c-intro {
           margin-top: 15px;
         }
       }
@@ -297,17 +338,17 @@ export default {
     .content-item {
       height: 333px;
       flex-wrap: wrap;
-      .content-img{
+      .content-img {
         width: 100%;
         margin-bottom: 10px;
       }
       .content-base-box {
         min-width: none;
         // height: 100%;
-        .c-intro{
+        .c-intro {
           margin-top: 0;
         }
-        .to-detail{
+        .to-detail {
           display: none;
         }
       }
@@ -355,7 +396,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
-        
+
         width: 100%;
         .c-intro {
           color: #aaa;
@@ -421,4 +462,7 @@ export default {
     flex-shrink: 0;
   }
 }
+// .ant-pagination-disabled {
+//   pointer-events: none;
+// }
 </style>

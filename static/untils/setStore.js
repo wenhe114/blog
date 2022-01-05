@@ -20,6 +20,22 @@ export async function getContentList(context, params) {
     return data
 }
 
+// 获取资源列表
+export async function getResourceList(context, type_id) {
+    const contentData = await context.$axios.get(BASE_URL + "/resource/list?type_id="+type_id)
+    const data = responseData(contentData)
+    return data
+}
+
+// 获取资源分类列表
+export async function getResourceTypeList(context, params) {
+    const contentData = await context.$axios.get(BASE_URL + "/resourceType/list", {
+        params: { ...params },
+    })
+    const data = responseData(contentData)
+    return data
+}
+
 export function responseData(data) {
     if (!data) {
         throw new Error('Invalid Request.')
