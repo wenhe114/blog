@@ -100,15 +100,15 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-buildhttp://101.42.234.72:7001
   build: {
-    // optimization:{
-    //   splitChunks: {
+    optimization:{
+      splitChunks: {
 
-    //     minSize: 10000,
+        minSize: 10000,
 
-    //      maxSize: 250000
+         maxSize: 250000
 
-    //    }
-    // }
+       }
+    }
   },
   server: {
     port: 1111,
