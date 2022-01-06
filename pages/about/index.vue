@@ -1,0 +1,43 @@
+<template>
+  <div class="content-list-wrap">
+    <div class="content-left">
+      <div>
+        <div>关于本站</div>
+      </div>
+      <div>
+        <div>关于我</div>
+      </div>
+    </div>
+    <div class="content-right">
+      <layout-right id=""></layout-right>
+    </div>
+  </div>
+</template>
+<script>
+import {
+  setStore
+} from "@/static/untils/setStore";
+export default {
+  head() {
+    return {
+      title: "文和博客-关于我-关于本站",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "文和博客-关于我-关于本站",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: "文和博客-关于我-关于本站",
+        },
+      ],
+    };
+  },
+  async asyncData(context) {
+    await setStore(context);
+    return {};
+  },
+};
+</script>

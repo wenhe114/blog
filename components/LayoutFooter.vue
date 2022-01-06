@@ -9,7 +9,12 @@
         >文和gitHub仓库</a>
       </span>
     </div>
-
+<div class="w-100">
+  <nuxt-link to="/about" class="a-link split-line">关于我</nuxt-link>
+  <nuxt-link to="/message-board" class="a-link split-line">留言板</nuxt-link>
+  <nuxt-link to="/blogroll" class="a-link split-line">友情链接</nuxt-link>
+  <nuxt-link to="/sitemap" class="a-link">站点地图</nuxt-link>
+</div>
     <div class="w-100">
       <a href="https://beian.miit.gov.cn/">{{
         aboutInfo.beian_num ? aboutInfo.beian_num : "陇ICP备2021003774号"
@@ -62,15 +67,33 @@ export default {
 <style lang="less">
 .w-h-footer {
   margin-top: 30px;
-  height: 70px;
+  // height: 70px;
   background: @white-color;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  padding: 20px 0px;
+  .split-line{
+    position: relative;
+    &.a-link{
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    &::after{
+      position: absolute;
+      content: "";
+      width: 1px;
+      height: 15px;
+      background: rgb(68, 68, 68);
+      right: -10px;
+      top: 4px;
+    }
+  }
   .w-100 {
     width: 100%;
     text-align: center;
+    margin-top: 15px;
   }
   span {
     margin-left: 20px;

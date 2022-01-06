@@ -37,6 +37,9 @@ export default {
     ]
   },
   loading: '~/components/loading.vue',
+  router: {
+    middleware: 'unknownRoute'
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "~/css/theme.less",
@@ -103,7 +106,7 @@ export default {
     optimization:{
       splitChunks: {
 
-        minSize: 10000,
+        minSize: 0,
 
          maxSize: 250000
 

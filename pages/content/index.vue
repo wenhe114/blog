@@ -48,7 +48,7 @@
                 ><i class="icon-xiaoxi iconfont"></i>{{ item.remark_num }}</span
               >
               <router-link
-                class="to-detail"
+                class="to-detail a-link"
                 :to="{
                   path: '/content/detail',
                   query: {

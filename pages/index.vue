@@ -18,14 +18,14 @@
               <nuxt-link :to="item.url">{{ item.name }}</nuxt-link>
             </h1>
             <p class="resource-desc">{{ item.intro }}</p>
-            <div class="down-adress">
+            <div class="down-adress" v-if="item.down_url">
               <span
                 >下载地址：<nuxt-link :to="item.down_url">{{
                   item.down_url
                 }}</nuxt-link></span
               >
             </div>
-            <div>
+            <div v-if="item.down_no">
               <span>提取码：</span
               ><span class="down-no">{{ item.down_no }}</span>
             </div>

@@ -18,6 +18,7 @@
         </div>
         <p class="c-intro">
         简介：{{aboutInfo.intro}}
+        <nuxt-link to="/about" class="a-link">了解更多>></nuxt-link>
       </p>
       </div>
       
@@ -74,11 +75,13 @@ export default {
     }
   },
   mounted() {
+    console.log(12121212);
     this.getData();
     this.getAnalysisData()
   },
   methods: {
     getData() {
+      console.log(1212);
       this.datList = [];
       return new Promise((resolve, reject) => {
         request

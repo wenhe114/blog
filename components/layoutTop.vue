@@ -272,8 +272,11 @@ export default {
               &.nav-active {
                 background: @theme-color;
                 padding-left: 20px;
-                color: #5d5d5d;
+                color: #fff;
                 text-indent: 5;
+                a{
+                  color: #fff;
+                }
               }
             }
           }
@@ -392,7 +395,7 @@ export default {
         }
         &:hover,
         &.nav-active {
-          color: #0290a3;
+          color: #fff;
         }
       }
       &:hover {
@@ -422,7 +425,7 @@ export default {
           &.nav-active {
             background: @theme-color;
             padding-left: 20px;
-            color: #5d5d5d;
+            color: #fff;
             text-indent: 5;
           }
         }
