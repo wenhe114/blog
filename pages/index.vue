@@ -56,12 +56,12 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: "vuejs,nuxtjs,web前端博客,html5,JavaScript,web前端笔记,web前端开发,jQuery,css3,html,css,文和的博客",
+          content: this.currentTitle,
         },
         {
           hid: "keywords",
           name: "keywords",
-          content: this.currentTitle,
+          content: "vuejs,nuxtjs,web前端博客,html5,JavaScript,web前端笔记,web前端开发,jQuery,css3,html,css,文和的博客",
         },
       ],
     };
