@@ -7,6 +7,9 @@ import {
   setStore
 } from "@/static/untils/setStore";
 export default {
+   layout(context) {
+    return 'empty'
+  },
   head() {
     return {
       title: "文和博客-关于我-关于本站",

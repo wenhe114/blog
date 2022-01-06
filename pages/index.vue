@@ -56,7 +56,7 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: this.currentTitle,
+          content: "vuejs,nuxtjs,web前端博客,html5,JavaScript,web前端笔记,web前端开发,jQuery,css3,html,css,文和的博客",
         },
         {
           hid: "keywords",
@@ -75,7 +75,8 @@ export default {
     return {
       dataList: data,
       typeList:typeData,
-      type_id:type_id
+      type_id:type_id,
+      currentTitle: "文和博客,个人前端笔记与案例展示、学习经验交流！",
     };
   },
   data() {
@@ -85,7 +86,6 @@ export default {
         pageSize: 15,
       },
       contentList: [],
-      currentTitle: "文和博客-专注前端开发-技术学习-记录问题",
       id: this.$route.query.id,
     };
   },
