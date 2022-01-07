@@ -36,6 +36,14 @@ export async function getResourceTypeList(context, params) {
     return data
 }
 
+// 获取文章站点地图
+export async function getContentSitemap(context) {
+    const contentData = await context.$axios.get(BASE_URL + "/contents/sitemap")
+    const data = responseData(contentData)
+    console.log(data);
+    return data
+}
+
 export function responseData(data) {
     if (!data) {
         throw new Error('Invalid Request.')

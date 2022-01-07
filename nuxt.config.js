@@ -1,19 +1,6 @@
 const isDev=process.env.ENV==='dev'?true:false
-const os = require('os');
-//获取本机ip
-function getIpAddress() {
-  /**os.networkInterfaces() 返回一个对象，该对象包含已分配了网络地址的网络接口 */
-var interfaces = os.networkInterfaces();
- for (var devName in interfaces) {
-   var iface = interfaces[devName];
-    for (var i = 0; i < iface.length; i++) {
-           var alias = iface[i];
-             if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-               return alias.address;
-             }
-       }
-  }
-}
+import {getIpAddress} from "./config/getIp.js"
+import sitemap from "./config/sitemap.js"
 export default {
   env: {
     baseUrl: process.env.BASE_URL
@@ -38,7 +25,7 @@ export default {
   },
   loading: '~/components/loading.vue',
   router: {
-    middleware: 'unknownRoute'
+    // middleware: 'unknownRoute'
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -67,8 +54,10 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/sitemap'
   ],
+  
   styleResources: {
     less: [
       './css/theme.less'
@@ -85,7 +74,7 @@ export default {
     // }
     proxy: true
   },
-
+  sitemap: sitemap,
   proxy: {
     '/blogApi': {
       target: isDev?"http://"+getIpAddress()+":7001":"http://101.42.234.72:7001",

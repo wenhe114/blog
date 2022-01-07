@@ -157,7 +157,7 @@ export default {
         cursor: pointer;
         &.active {
           background: @theme-color;
-          color: #3695a8;
+          color: #fff;
         }
       }
     }

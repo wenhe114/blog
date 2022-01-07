@@ -76,3 +76,9 @@ html,body{
 .show{
     display: block !important;
 }
+
+:root{
+    --theme-color:#41aaff;
+    --a-link:#41aaff;
+    --color-border:#e9eaed
+}
