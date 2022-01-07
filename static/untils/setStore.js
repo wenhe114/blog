@@ -44,6 +44,14 @@ export async function getContentSitemap(context) {
     return data
 }
 
+// 获取文章站点地图
+export async function getMenutSitemap(context) {
+    const contentData = await context.$axios.get(BASE_URL + "/menu/sitemap")
+    const data = responseData(contentData)
+    console.log(data);
+    return data
+}
+
 export function responseData(data) {
     if (!data) {
         throw new Error('Invalid Request.')

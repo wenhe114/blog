@@ -1,12 +1,13 @@
 <template>
   <div class="content-list-wrap">
     <div class="content-left">
-      <div>
-        <div>关于本站</div>
-      </div>
-      <div>
-        <div>关于我</div>
-      </div>
+      <v-md-editor
+          class="detail-md"
+          v-model="aboutInfo.about_page"
+          height="auto"
+          mode="preview"
+          ref="previewMd"
+        ></v-md-editor>
     </div>
     <div class="content-right">
       <layout-right id=""></layout-right>
@@ -34,6 +35,18 @@ export default {
         },
       ],
     };
+  },
+  data(){
+    return{
+      content:"1212"
+    }
+  },
+  computed: {
+    aboutInfo: {
+      get() {
+        return this.$store.state.common.aboutInfo;
+      },
+    },
   },
   async asyncData(context) {
     await setStore(context);

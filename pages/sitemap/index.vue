@@ -8,7 +8,7 @@
     <section>
       <header>文章</header>
       <ul>
-        <li v-for="item in sitemap" :key="item.id" class="c-item">
+        <li v-for="item in contentSitemap" :key="item.id" class="c-item">
           <span>
             <i class="icon-huoyan iconfont"></i>
             <nuxt-link :to="item.url">{{ item.name }}</nuxt-link>
@@ -16,6 +16,16 @@
           <span>{{ item.created_at }}</span>
         </li>
       </ul>
+    </section>
+    <section>
+      <header>标签</header>
+      <div class="tag-wrap">
+        <span v-for="item in menuSitemap" :key="item.id">
+          <nuxt-link :to="item.url"
+            >{{ item.name }}({{ item.count }})</nuxt-link
+          >
+        </span>
+      </div>
     </section>
     <footer class="w-100">
       <a href="https://beian.miit.gov.cn/">陇ICP备2021003774号</a>
@@ -30,13 +40,7 @@
           line-height: 20px;
         "
       >
-        <i
-          style="
-            height: 20px;
-            line-height: 20px;
-            margin: 0px 0px 0px 5px;
-          "
-        >
+        <i style="height: 20px; line-height: 20px; margin: 0px 0px 0px 5px">
           甘公网安备 62102502000131号
         </i></a
       >
@@ -45,7 +49,7 @@
 </template>
 
 <script>
-import { getContentSitemap } from "@/static/untils/setStore";
+import { getContentSitemap, getMenutSitemap } from "@/static/untils/setStore";
 export default {
   layout(context) {
     return "empty";
@@ -68,10 +72,14 @@ export default {
     };
   },
   async asyncData(context) {
-    const sitemap = await getContentSitemap(context);
-    console.log(sitemap);
+    const [contentSitemap, menuSitemap] = await Promise.all([
+      getContentSitemap(context),
+      getMenutSitemap(context),
+    ]);
+    console.log(contentSitemap);
     return {
-      sitemap: sitemap,
+      contentSitemap: contentSitemap,
+      menuSitemap: menuSitemap,
     };
   },
 };
@@ -94,6 +102,15 @@ export default {
   footer {
     margin-top: 30px;
     text-align: center;
+  }
+  .tag-wrap {
+    span {
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 0 5px;
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="w-h-footer">
     <div class="w-100">
-      <span>站点：{{ aboutInfo.name }}</span>
+      <span>站点：<nuxt-link to="/">{{ aboutInfo.name }}</nuxt-link></span>
       <span>邮箱：{{ aboutInfo.mail }}</span>
       <span>
         <a title="github" :href="aboutInfo.github"
