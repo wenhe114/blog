@@ -5,7 +5,7 @@ const httpPath= isDev?"http://"+getIpAddress()+":7001":"http://101.42.234.72:700
 const sitemap = [
     {
         path: '/sitemap.xml', // 生成的文件路径
-        hostname: 'https://baidu.com/', // 网址
+        hostname: 'http://www.linshipeng.com/', // 网址
         // cacheTime: 1000 * 60 * 60 * 24, // 1天 更新频率，只在 generate: false有用
         gzip: true, // 生成 .xml.gz 压缩的 sitemap
         generate: false, // 允许使用 nuxt generate 生成
