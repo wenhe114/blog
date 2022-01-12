@@ -4,25 +4,37 @@
       <div class="resource-type-wrap">
         <span class="type-title">分类：</span>
         <div class="type-wrap">
-          <router-link :to="{path:'/',query:{type_id:''}}" class="type-item" :class="!type_id?'active':''">全部</router-link>
-          <router-link v-for="item in typeList" :key="item.id" :to="{path:'/',query:{type_id:item.id}}" class="type-item" :class="type_id==item.id?'active':''">{{item.type}}</router-link>
+          <router-link
+            :to="{ path: '/', query: { type_id: '' } }"
+            class="type-item"
+            :class="!type_id ? 'active' : ''"
+            >全部</router-link
+          >
+          <router-link
+            v-for="item in typeList"
+            :key="item.id"
+            :to="{ path: '/', query: { type_id: item.id } }"
+            class="type-item"
+            :class="type_id == item.id ? 'active' : ''"
+            >{{ item.type }}</router-link
+          >
         </div>
       </div>
-      <div class="resource-list-wrap" v-if="dataList.length>0">
+      <div class="resource-list-wrap" v-if="dataList.length > 0">
         <div class="resource-item-box" v-for="item in dataList" :key="item.id">
-          <nuxt-link class="resource-img" :to="item.url">
+          <a class="resource-img" target="_blank" :href="item.url">
             <img :src="item.cover" alt="" srcset="" />
-          </nuxt-link>
+          </a>
           <div class="resource-right">
             <h1 class="resource-name">
-              <nuxt-link :to="item.url">{{ item.name }}</nuxt-link>
+              <a target="_blank" :href="item.url">{{ item.name }}</a>
             </h1>
             <p class="resource-desc">{{ item.intro }}</p>
             <div class="down-adress" v-if="item.down_url">
               <span
-                >下载地址：<nuxt-link :to="item.down_url">{{
+                >下载地址：<a target="_blank" :href="item.down_url">{{
                   item.down_url
-                }}</nuxt-link></span
+                }}</a></span
               >
             </div>
             <div v-if="item.down_no">
@@ -32,9 +44,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="none-data-wrap">
-        啊哦，暂无数据~
-      </div>
+      <div v-else class="none-data-wrap">啊哦，暂无数据~</div>
     </div>
     <div class="content-right">
       <layout-right :id="id"></layout-right>
@@ -61,7 +71,8 @@ export default {
         {
           hid: "keywords",
           name: "keywords",
-          content: "vuejs,nuxtjs,web前端博客,html5,JavaScript,web前端笔记,web前端开发,jQuery,css3,html,css,文和的博客",
+          content:
+            "vuejs,nuxtjs,web前端博客,html5,JavaScript,web前端笔记,web前端开发,jQuery,css3,html,css,文和的博客",
         },
       ],
     };
@@ -69,13 +80,13 @@ export default {
   watchQuery: true,
   async asyncData(context) {
     setStore(context);
-    const type_id=context.query.type_id?context.query.type_id:''
-    const typeData =await getResourceTypeList(context);
-    const data =await getResourceList(context,type_id);
+    const type_id = context.query.type_id ? context.query.type_id : "";
+    const typeData = await getResourceTypeList(context);
+    const data = await getResourceList(context, type_id);
     return {
       dataList: data,
-      typeList:typeData,
-      type_id:type_id,
+      typeList: typeData,
+      type_id: type_id,
       currentTitle: "文和博客,个人前端笔记与案例展示、学习经验交流！",
     };
   },
@@ -265,7 +276,7 @@ export default {
     }
   }
 }
-.none-data-wrap{
+.none-data-wrap {
   margin-top: 50px;
   text-align: center;
 }
