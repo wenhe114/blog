@@ -1,10 +1,4 @@
-# robots.txt generated at http://tool.chinaz.com/robots/ 
-User-agent: Baiduspider
-Disallow: 
-User-agent: Googlebot
-Disallow: 
-User-agent: Bingbot
-Disallow: 
 User-agent: *
-Disallow: 
+Disallow:
+
 Sitemap: http://www.linshipeng.com/sitemap.xml
